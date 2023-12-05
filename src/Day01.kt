@@ -1,51 +1,53 @@
 fun main() {
+
+    fun part2(testInput: List<String>) {
+        val sum = testInput.sumOf { input ->
+
+            val firstDigitIndex = input.indexOfFirst { it.isDigit() }
+            var first = input.firstOrNull { it.isDigit() }?.digitToInt() ?: 0
+            var firstFoundSubstringIndex = Int.MAX_VALUE
+            NumberText.values().forEach { numberText ->
+                val firstSubstringIndex = input.firstSubStringIndexOf(numberText.name)
+                if (firstSubstringIndex < firstDigitIndex &&
+                    firstSubstringIndex < firstFoundSubstringIndex
+                ) {
+                    first = numberText.number()
+                    firstFoundSubstringIndex = firstSubstringIndex
+                }
+            }
+
+
+            val lastDigitIndex = input.indexOfLast { it.isDigit() }
+            var last = input.lastOrNull { it.isDigit() }?.digitToInt() ?: 0
+            var lastFoundSubstringIndex = Int.MIN_VALUE
+            NumberText.values().forEach { numberText ->
+                val lastSubstringIndex = input.lastSubStringIndexOf(numberText.name)
+                if (lastSubstringIndex > lastDigitIndex &&
+                    lastSubstringIndex > lastFoundSubstringIndex
+                ) {
+                    last = numberText.number()
+                    lastFoundSubstringIndex = lastSubstringIndex
+                }
+            }
+            first * 10 + last
+        }
+        println(sum)
+    }
+
+    fun part1(testInput: List<String>) {
+        val sum = testInput.sumOf {
+            val first = it.first { it.isDigit() }.digitToInt()
+            val last = it.last { it.isDigit() }.digitToInt()
+            first * 10 + last
+        }
+        println(sum)
+    }
+
+
     val testInput = readInput("Day01_test")
 
 //    part1(testInput)
     part2(testInput)
-}
-
-private fun part2(testInput: List<String>) {
-    val sum = testInput.sumOf { input ->
-
-        val firstDigitIndex = input.indexOfFirst { it.isDigit() }
-        var first = input.firstOrNull { it.isDigit() }?.digitToInt() ?: 0
-        var firstFoundSubstringIndex = Int.MAX_VALUE
-        NumberText.values().forEach { numberText ->
-            val firstSubstringIndex = input.firstSubStringIndexOf(numberText.name)
-            if (firstSubstringIndex < firstDigitIndex &&
-                firstSubstringIndex < firstFoundSubstringIndex
-            ) {
-                first = numberText.number()
-                firstFoundSubstringIndex = firstSubstringIndex
-            }
-        }
-
-
-        val lastDigitIndex = input.indexOfLast { it.isDigit() }
-        var last = input.lastOrNull { it.isDigit() }?.digitToInt() ?: 0
-        var lastFoundSubstringIndex = Int.MIN_VALUE
-        NumberText.values().forEach { numberText ->
-            val lastSubstringIndex = input.lastSubStringIndexOf(numberText.name)
-            if (lastSubstringIndex > lastDigitIndex &&
-                lastSubstringIndex > lastFoundSubstringIndex
-            ) {
-                last = numberText.number()
-                lastFoundSubstringIndex = lastSubstringIndex
-            }
-        }
-        first * 10 + last
-    }
-    println(sum)
-}
-
-fun part1(testInput: List<String>) {
-    val sum = testInput.sumOf {
-        val first = it.first { it.isDigit() }.digitToInt()
-        val last = it.last { it.isDigit() }.digitToInt()
-        first * 10 + last
-    }
-    println(sum)
 }
 
 enum class NumberText {
