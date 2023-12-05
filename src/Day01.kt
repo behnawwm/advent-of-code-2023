@@ -9,30 +9,31 @@ private fun part2(testInput: List<String>) {
     val sum = testInput.sumOf { input ->
 
         val firstDigitIndex = input.indexOfFirst { it.isDigit() }
-
         var first = input.firstOrNull { it.isDigit() }?.digitToInt() ?: 0
-        var mamad = Int.MAX_VALUE
+        var firstFoundSubstringIndex = Int.MAX_VALUE
         NumberText.values().forEach { numberText ->
-            if (input.firstSubStringIndexOf(numberText.name) < firstDigitIndex && input.firstSubStringIndexOf(numberText.name) < mamad) {
+            val firstSubstringIndex = input.firstSubStringIndexOf(numberText.name)
+            if (firstSubstringIndex < firstDigitIndex &&
+                firstSubstringIndex < firstFoundSubstringIndex
+            ) {
                 first = numberText.number()
-                mamad = input.firstSubStringIndexOf(numberText.name)
+                firstFoundSubstringIndex = firstSubstringIndex
             }
         }
 
 
         val lastDigitIndex = input.indexOfLast { it.isDigit() }
-
         var last = input.lastOrNull { it.isDigit() }?.digitToInt() ?: 0
-        var mamad2 = Int.MIN_VALUE
+        var lastFoundSubstringIndex = Int.MIN_VALUE
         NumberText.values().forEach { numberText ->
-            if (input.lastSubStringIndexOf(numberText.name) > lastDigitIndex && input.lastSubStringIndexOf(numberText.name) > mamad2) {
+            val lastSubstringIndex = input.lastSubStringIndexOf(numberText.name)
+            if (lastSubstringIndex > lastDigitIndex &&
+                lastSubstringIndex > lastFoundSubstringIndex
+            ) {
                 last = numberText.number()
-                mamad2 = input.lastSubStringIndexOf(numberText.name)
+                lastFoundSubstringIndex = lastSubstringIndex
             }
         }
-
-        println("$input -> $first & $last")
-
         first * 10 + last
     }
     println(sum)
